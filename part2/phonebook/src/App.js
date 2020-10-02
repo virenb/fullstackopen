@@ -10,6 +10,11 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const checkPersons = persons.map(({ name }) => name);
+    if (checkPersons.includes(newName)) {
+      alert(`${newName} is already added to phonebook`);
+      return false;
+    }
     const personObject = {
       name: newName,
     };
@@ -29,8 +34,8 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map((person, idx) => (
-        <div key={idx}>{person['name']}</div>
+      {persons.map((person) => (
+        <div key={person['name']}>{person['name']}</div>
       ))}
     </div>
   );
