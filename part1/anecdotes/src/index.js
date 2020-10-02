@@ -8,6 +8,7 @@ const Button = ({ onClick, text }) => {
 const App = ({ anecdotes }) => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState([0, 0, 0, 0, 0, 0]);
+  const [mostVotes, setMostVotes] = useState(0);
 
   const handleClick = () => {
     let num = Math.floor(Math.random() * (5 - 0 + 1)) + 0;
@@ -16,6 +17,7 @@ const App = ({ anecdotes }) => {
 
   const handleVote = () => {
     setVotes(((votes[selected] += 1), [...votes]));
+    setMostVotes(votes.indexOf(Math.max(...votes)));
   };
 
   return (
@@ -26,6 +28,9 @@ const App = ({ anecdotes }) => {
       <br />
       <Button onClick={handleVote} text='vote' />
       <Button onClick={handleClick} text='next anecdote' />
+      <h2>Anecdote with most votes</h2>
+      <p>{anecdotes[mostVotes]}</p>
+      <p>has {votes[mostVotes]} votes</p>
     </>
   );
 };
