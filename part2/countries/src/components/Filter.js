@@ -1,22 +1,16 @@
 import React from 'react';
-import Country from './Country';
-import Countries from './Countries';
 
-const Filter = ({ country, handleChange, matchingCountries }) => {
+const Filter = ({ countryFilter, handleFilterChange }) => {
   return (
     <>
       <div>
         find countries{' '}
-        <input type='text' onChange={handleChange} value={country} />
+        <input
+          type='text'
+          value={countryFilter}
+          onChange={handleFilterChange}
+        />
       </div>
-      {matchingCountries.length > 10 ? (
-        <p>Too many matches, specify another filter</p>
-      ) : (
-        matchingCountries.map((country) => <Countries country={country} />)
-      )}
-      {matchingCountries.length === 1 ? (
-        <Country matchingCountries={matchingCountries} />
-      ) : null}
     </>
   );
 };

@@ -1,37 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Filter from './components/Filter';
+import Country from './components/Country';
+import Countries from './components/Countries';
 
 function App() {
-  const [country, setCountry] = useState('');
   const [countries, setCountries] = useState([]);
-  const [matchingCountries, setMatchingCountries] = useState([]);
-
-  const handleChange = (event) => {
-    setCountry(event.target.value);
-
-    setMatchingCountries(
-      countries.filter((c) =>
-        c['name'].toLowerCase().startsWith(country.toLowerCase())
-      )
-    );
-    console.log(matchingCountries);
-  };
+  const [countryFilter, setCountryFilter] = useState('');
+  const [filteredCountries, setFilteredCountries] = useState([]);
 
   useEffect(() => {
-    console.log('useEffected!');
     axios.get('https://restcountries.eu/rest/v2/all').then((response) => {
       setCountries(response.data);
     });
   }, []);
 
+  const handleFilterChange = (event) => {
+    setCountryFilter(event.target.value);
+    setFilteredCountries(
+      countries.filter((c) =>
+        c.name.toLowerCase().includes(event.target.value.toLowerCase())
+      )
+    );
+  };
+
+  const renderCountries = () => {
+    if (countryFilter.length >= 1 && filteredCountries.length > 10) {
+      return <div>Too many countries</div>;
+    } else if (filteredCountries.length < 10 && filteredCountries.length > 1) {
+      return <Countries countries={filteredCountries} />;
+    } else if (filteredCountries.length === 1) {
+      return <Country country={filteredCountries[0]} />;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <>
       <Filter
-        country={country}
-        handleChange={handleChange}
-        matchingCountries={matchingCountries}
+        countryFilter={countryFilter}
+        handleFilterChange={handleFilterChange}
       />
+      <div>{renderCountries()}</div>
     </>
   );
 }

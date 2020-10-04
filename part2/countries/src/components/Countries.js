@@ -1,10 +1,12 @@
 import React from 'react';
 
-const Countries = ({ country }) => {
+const Countries = ({ countries }) => {
   return (
-    <>
-      <div key={country.alpha3Code}>{country.name}</div>
-    </>
+    <div>
+      {countries.map((c) => (
+        <div key={c.alpha2Code}>{c.name}</div>
+      ))}
+    </div>
   );
 };
 
