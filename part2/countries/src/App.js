@@ -24,11 +24,25 @@ function App() {
     );
   };
 
+  const handleCountryClick = (event) => {
+    setCountryFilter(event.target.id.toLowerCase());
+    setFilteredCountries(
+      countries.filter((c) =>
+        c.name.toLowerCase().includes(event.target.id.toLowerCase())
+      )
+    );
+  };
+
   const renderCountries = () => {
     if (countryFilter.length >= 1 && filteredCountries.length > 10) {
       return <div>Too many countries</div>;
     } else if (filteredCountries.length < 10 && filteredCountries.length > 1) {
-      return <Countries countries={filteredCountries} />;
+      return (
+        <Countries
+          countries={filteredCountries}
+          handleCountryClick={handleCountryClick}
+        />
+      );
     } else if (filteredCountries.length === 1) {
       return <Country country={filteredCountries[0]} />;
     } else {
