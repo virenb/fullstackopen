@@ -14,7 +14,7 @@ const App = () => {
     personService.getAll().then((response) => {
       setPersons(response.data);
     });
-  }, []);
+  }, [persons]);
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -48,6 +48,17 @@ const App = () => {
     }
   };
 
+  const handleDelete = (id) => {
+    // console.log(id);
+    let user = persons.filter((p) => p.id == id);
+    // console.log(user);
+    let confirmUser = window.confirm(`Delete ${user[0].name} ?`);
+    alert(confirmUser);
+    personService.deleteUser(id).then(() => {
+      return setPersons(persons.filter((p) => p.id !== id));
+    });
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -66,7 +77,11 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <Persons persons={persons} phoneFilter={phoneFilter} />
+      <Persons
+        persons={persons}
+        phoneFilter={phoneFilter}
+        handleDelete={(event) => handleDelete(event.target.id)}
+      />
     </div>
   );
 };

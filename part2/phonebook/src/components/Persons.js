@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Persons = ({ phoneFilter, persons }) => {
+const Persons = ({ phoneFilter, persons, handleDelete }) => {
   return (
     <>
       {phoneFilter
@@ -10,12 +10,18 @@ const Persons = ({ phoneFilter, persons }) => {
             )
             .map((person) => (
               <div key={person.name}>
-                {person.name} {person.number}
+                {person.name} {person.number}{' '}
+                <button onClick={handleDelete} id={person.id}>
+                  delete
+                </button>
               </div>
             ))
         : persons.map((person) => (
             <div key={person.name}>
-              {person.name} {person.number}
+              {person.name} {person.number}{' '}
+              <button onClick={handleDelete} id={person.id}>
+                delete
+              </button>
             </div>
           ))}
     </>
