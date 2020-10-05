@@ -9,12 +9,13 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [phoneFilter, setFilter] = useState('');
+  const [deleted, setDeleted] = useState(false);
 
   useEffect(() => {
     personService.getAll().then((response) => {
       setPersons(response.data);
     });
-  }, [persons]);
+  }, [deleted]);
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -54,9 +55,11 @@ const App = () => {
     // console.log(user);
     let confirmUser = window.confirm(`Delete ${user[0].name} ?`);
     alert(confirmUser);
-    personService.deleteUser(id).then(() => {
-      return setPersons(persons.filter((p) => p.id !== id));
-    });
+    personService
+      .deleteUser(id)
+      .then(() => setDeleted(true))
+      .then(() => setPersons(persons.filter((p) => p.id !== id)));
+    setDeleted(false);
   };
 
   return (
