@@ -14,6 +14,7 @@ const App = () => {
   const [deleted, setDeleted] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [updateMessage, setUpdateMessage] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     personService.getAll().then((response) => {
@@ -57,10 +58,14 @@ const App = () => {
           setUpdateMessage(`${personToUpdate[0].name} has been updated`);
           setTimeout(() => {
             setUpdateMessage(null);
-          }, 5000);
+          }, 3000);
         })
         .catch((err) => {
-          console.log(err);
+          setError(true);
+          setUpdateMessage(
+            `Information of ${personToUpdate[0].name} has already been removed`
+          );
+          setPersons([...persons.filter((p) => p.id !== personToUpdate[0].id)]);
         });
       setNewName('');
       setNewNumber('');
@@ -78,7 +83,7 @@ const App = () => {
         setUpdateMessage(`Added ${personObject.name}`);
         setTimeout(() => {
           setUpdateMessage(null);
-        }, 5000);
+        }, 3000);
         setNewName('');
         setNewNumber('');
       });
@@ -105,7 +110,7 @@ const App = () => {
         phoneFilter={phoneFilter}
         handleFilterChange={handleFilterChange}
       />
-      <Notification message={updateMessage} />
+      <Notification message={updateMessage} error={error} />
       <h2>Add a new</h2>
       <PersonForm
         handleSubmit={handleSubmit}
