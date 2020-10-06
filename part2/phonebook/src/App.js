@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import Notification from './components/Notification';
 import personService from './services/persons';
+import './index.css';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,6 +13,7 @@ const App = () => {
   const [phoneFilter, setFilter] = useState('');
   const [deleted, setDeleted] = useState(false);
   const [updated, setUpdated] = useState(false);
+  const [updateMessage, setUpdateMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((response) => {
@@ -32,6 +35,7 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const checkPersons = persons.map(({ name }) => name);
     if (checkPersons.includes(newName)) {
       let personToUpdate = persons.filter((p) => p.name == newName);
@@ -50,6 +54,13 @@ const App = () => {
         .then(() => {
           setPersons([...persons]);
           setUpdated(true);
+          setUpdateMessage(`${personToUpdate[0].name} has been updated`);
+          setTimeout(() => {
+            setUpdateMessage(null);
+          }, 5000);
+        })
+        .catch((err) => {
+          console.log(err);
         });
       setNewName('');
       setNewNumber('');
@@ -63,6 +74,11 @@ const App = () => {
       };
       personService.create(personObject).then((response) => {
         setPersons(persons.concat(response.data));
+        console.log(persons);
+        setUpdateMessage(`Added ${personObject.name}`);
+        setTimeout(() => {
+          setUpdateMessage(null);
+        }, 5000);
         setNewName('');
         setNewNumber('');
       });
@@ -89,7 +105,7 @@ const App = () => {
         phoneFilter={phoneFilter}
         handleFilterChange={handleFilterChange}
       />
-
+      <Notification message={updateMessage} />
       <h2>Add a new</h2>
       <PersonForm
         handleSubmit={handleSubmit}
@@ -98,7 +114,6 @@ const App = () => {
         newName={newName}
         newNumber={newNumber}
       />
-
       <h3>Numbers</h3>
       <Persons
         persons={persons}
