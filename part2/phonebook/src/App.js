@@ -10,12 +10,13 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [phoneFilter, setFilter] = useState('');
   const [deleted, setDeleted] = useState(false);
+  const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
     personService.getAll().then((response) => {
       setPersons(response.data);
     });
-  }, [deleted]);
+  }, [deleted, updated]);
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -33,7 +34,26 @@ const App = () => {
     event.preventDefault();
     const checkPersons = persons.map(({ name }) => name);
     if (checkPersons.includes(newName)) {
-      alert(`${newName} is already added to phonebook`);
+      let personToUpdate = persons.filter((p) => p.name == newName);
+      // console.log('personToUpdate ', personToUpdate);
+      // console.log('personToUpdate id ', personToUpdate[0].id);
+      let updateAlert = window.confirm(
+        `${newName} is already added to phonebook, replace old number with new one?`
+      );
+      alert(updateAlert);
+      // console.log(event.target[1].value);
+      personService
+        .update(personToUpdate[0].id, {
+          name: personToUpdate[0].name,
+          number: event.target[1].value,
+        })
+        .then(() => {
+          setPersons([...persons]);
+          setUpdated(true);
+        });
+      setNewName('');
+      setNewNumber('');
+      setUpdated(false);
       return false;
     }
     if (newName && newNumber) {
