@@ -1,6 +1,7 @@
 const express = require('express');
 
 const app = express();
+app.use(express.json());
 
 let persons = [
   {
@@ -25,6 +26,11 @@ let persons = [
   },
 ];
 
+const generateId = () => {
+  const newId = Math.floor(Math.random() * 1000);
+  return newId + 1;
+};
+
 app.get('/', (request, response) => {
   response.send('<h1>Hello, from Phonebook</h1>');
 });
@@ -45,6 +51,27 @@ app.get('/api/persons/:id', (request, response) => {
   const person = persons.find((p) => p.id === id);
 
   person ? response.json(person) : response.status(404).end();
+});
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body;
+  console.log(request);
+  if (!body) {
+    return response.status(400).json({
+      error: 'something missing',
+    });
+  }
+  console.log(body);
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId(),
+  };
+
+  persons = persons.concat(person);
+
+  response.json(person);
 });
 
 app.delete('/api/persons/:id', (request, response) => {
