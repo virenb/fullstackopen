@@ -80,6 +80,14 @@ app.post('/api/persons', (request, response) => {
   persons = persons.concat(person);
 
   response.json(person);
+  function replacer(key, value) {
+    // Filtering out properties
+    if (typeof value === 'number') {
+      return undefined;
+    }
+    return value;
+  }
+  console.log(JSON.stringify(person, replacer));
 });
 
 app.delete('/api/persons/:id', (request, response) => {
