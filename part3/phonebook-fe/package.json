@@ -35,5 +35,6 @@
   },
   "devDependencies": {
     "json-server": "^0.16.2"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
