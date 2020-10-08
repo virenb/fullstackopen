@@ -57,45 +57,26 @@ app.get('/info', (request, response) => {
 });
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((p) => p.id === id);
-
-  person ? response.json(person) : response.status(404).end();
+  Person.findById(request.params.id).then((person) => {
+    response.json(person);
+  });
 });
 
 app.post('/api/persons', (request, response) => {
   const body = request.body;
-  const name = body.name;
 
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error: 'Name or number are missing',
-    });
-  }
-  let personExists = persons.find((p) => p.name === name);
-  if (personExists) {
-    return response.status(400).json({
-      error: 'name must be unique',
-    });
+  if (body.name === undefined || body.number === undefined) {
+    return response.status(400).json({ error: 'content missing' });
   }
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateId(),
-  };
+  });
 
-  persons = persons.concat(person);
-
-  response.json(person);
-  function replacer(key, value) {
-    // Filtering out properties
-    if (typeof value === 'number') {
-      return undefined;
-    }
-    return value;
-  }
-  console.log(JSON.stringify(person, replacer));
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
 });
 
 app.delete('/api/persons/:id', (request, response) => {
