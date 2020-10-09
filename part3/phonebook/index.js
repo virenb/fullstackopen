@@ -56,6 +56,7 @@ app.get('/info', (request, response) => {
   <div>${Date()}</div>`);
 });
 
+// 3.18 exercise
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
     .then((person) => {
