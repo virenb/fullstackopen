@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
+const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
-const url = process.env.MONGODB_URI;
-console.log('connecting to', url);
+const url = process.env.MONGODB_URI
+console.log('connecting to', url)
 
 mongoose
   .connect(url, {
@@ -11,12 +11,12 @@ mongoose
     useFindAndModify: false,
     useCreateIndex: true,
   })
-  .then((result) => {
-    console.log('connected to MongoDB');
+  .then(() => {
+    console.log('connected to MongoDB')
   })
   .catch((error) => {
-    console.log('error connecting to MongoDB:', error.message);
-  });
+    console.log('error connecting to MongoDB:', error.message)
+  })
 
 const personSchema = new mongoose.Schema({
   name: {
@@ -30,16 +30,16 @@ const personSchema = new mongoose.Schema({
     minlength: 8,
     required: true,
   },
-});
+})
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
   },
-});
+})
 
-personSchema.plugin(uniqueValidator, { message: 'Error, name is not unique' });
+personSchema.plugin(uniqueValidator, { message: 'Error, name is not unique' })
 
-module.exports = mongoose.model('Person', personSchema);
+module.exports = mongoose.model('Person', personSchema)
