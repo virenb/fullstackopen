@@ -95,18 +95,17 @@ describe('author with the most blos', () => {
 
 })
 
+describe('author with most likes', () => {
+  const blogs = [ 
+    { title: 'React patterns', author: 'Michael Chan', likes: 7 },
+    { title: 'Go To Statement Considered Harmful', author: 'Edsger W. Dijkstra', likes: 5 },
+    { title: 'Canonical string reduction', author: 'Edsger W. Dijkstra', likes: 12},
+    { title: 'Hello World', author: 'Michael Chan', likes: 10 }    
+  ]
 
-// describe('author with most likes', () => {
-//   const blogs = [ 
-//     { title: 'React patterns', author: 'Michael Chan', likes: 7 },
-//     { title: 'Go To Statement Considered Harmful', author: 'Edsger W. Dijkstra', likes: 5 },
-//     { title: 'Canonical string reduction', author: 'Edsger W. Dijkstra', likes: 12},
-//     { title: 'Hello World', author: 'Michael Chan', likes: 10 }    
-//   ]
+  test('when multiple blogs, return author with most likes on all blogs summed', () => {
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toEqual({ 'author': 'Michael Chan', 'likes': 17 })
+  })
 
-//   test('when multiple blogs, return author with most likes on all blogs summed', () => {
-//     const result = listHelper.mostLikes(blogs)
-//     expect(result).toEqual({ 'author': 'Michael Chan', 'likes': 17 })
-//   })
-
-// })
+})
