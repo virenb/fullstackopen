@@ -74,3 +74,39 @@ describe('most liked blog', () => {
   })
 
 })
+
+describe('author with the most blos', () => {
+  const blogs = [ 
+    { title: 'React patterns', author: 'Michael Chan', likes: 7 },
+    { title: 'Go To Statement Considered Harmful', author: 'Edsger W. Dijkstra', likes: 5 },
+    { title: 'Canonical string reduction', author: 'Edsger W. Dijkstra', likes: 12},
+    { title: 'Testing is the best', author: 'bhi', likes: 100 },
+    { title: 'Testing is awesome', author: 'bhi', likes: 10203 },
+    { title: 'Testing makes you a good dev', author: 'bhi', likes: 3 },
+    { title: 'We need more tests', author: 'bhi', likes: 11230 },
+    { title: 'Jest, the Best', author: 'bhi', likes: 2 }    
+  ]
+
+  test('find author who has the most blog posts', () => {
+    const result = listHelper.mostBlogs(blogs)
+    expect(result).toEqual({ author: 'bhi', blogs: 5 })
+  })
+
+
+})
+
+
+// describe('author with most likes', () => {
+//   const blogs = [ 
+//     { title: 'React patterns', author: 'Michael Chan', likes: 7 },
+//     { title: 'Go To Statement Considered Harmful', author: 'Edsger W. Dijkstra', likes: 5 },
+//     { title: 'Canonical string reduction', author: 'Edsger W. Dijkstra', likes: 12},
+//     { title: 'Hello World', author: 'Michael Chan', likes: 10 }    
+//   ]
+
+//   test('when multiple blogs, return author with most likes on all blogs summed', () => {
+//     const result = listHelper.mostLikes(blogs)
+//     expect(result).toEqual({ 'author': 'Michael Chan', 'likes': 17 })
+//   })
+
+// })
