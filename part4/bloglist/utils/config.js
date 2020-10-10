@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 require('dotenv').config()
 
 let MONGODB_URI = process.env.MONGODB_URI
