@@ -77,16 +77,26 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      personService.create(personObject).then((response) => {
-        setPersons(persons.concat(response.data));
-        console.log(persons);
-        setUpdateMessage(`Added ${personObject.name}`);
-        setTimeout(() => {
-          setUpdateMessage(null);
-        }, 3000);
-        setNewName('');
-        setNewNumber('');
-      });
+      personService
+        .create(personObject)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          console.log(persons);
+          setUpdateMessage(`Added ${personObject.name}`);
+          setTimeout(() => {
+            setUpdateMessage(null);
+          }, 3000);
+          setNewName('');
+          setNewNumber('');
+        })
+        .catch((error) => {
+          setError(true);
+          setUpdateMessage(error.response.data.error);
+          setTimeout(() => {
+            setUpdateMessage(null);
+            setError(false);
+          }, 3000);
+        });
     }
   };
 
