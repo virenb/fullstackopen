@@ -17,6 +17,13 @@ test('there are four notes', async () => {
   expect(response.body).toHaveLength(0)
 })
 
+
+test('blog posts have unique id property', async () => {
+  const response = await api.get('/api/blogs')
+  const ids = response.body.map(r => r.id)
+  expect(ids).toBeDefined()
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
