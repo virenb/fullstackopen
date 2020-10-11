@@ -91,6 +91,22 @@ test('a new entry with no likes provided will default to ', async () => {
   expect(likes).toContain(0)
 })
 
+// 4.12
+test('new blog entry with missing properties is not added', async () => {
+  const newBlog = {
+    author: 'virenb',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
