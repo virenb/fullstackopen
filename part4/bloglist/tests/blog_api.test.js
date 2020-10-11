@@ -39,6 +39,7 @@ test('a specific blog is within the returned blog', async () => {
   )
 })
 
+// 4.9
 test('each post has a unique id', async () => {
   const response = await api.get('/api/blogs')
 
@@ -46,6 +47,29 @@ test('each post has a unique id', async () => {
   expect(ids).toBeDefined()
 })
 
+// 4.10
+test('a valid blog can be added ', async () => {
+  const newBlog =   {
+    title: 'Testing is still fun, kind of?',
+    author: 'virenb',
+    url: 'virenb.cc/testing-eh',
+    likes: 111
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+  const titles = blogsAtEnd.map(n => n.title)
+  expect(titles).toContain(
+    'Testing is still fun, kind of?'
+  )
+})
 
 afterAll(() => {
   mongoose.connection.close()
