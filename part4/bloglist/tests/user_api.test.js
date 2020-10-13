@@ -39,6 +39,29 @@ describe('when there is initially one user in db', () => {
   })
 })
 
+describe('users must have valid properties to be added', () => {
+  test('invalid user returns correct status code and error', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'timapple',
+      name: 'Tim Apple',
+      password: 'xx',
+    }
+    const errorMessage = '{"error":"Password length too short"}'
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect(errorMessage)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+  })
+})
+
 
 afterAll(() => {
   mongoose.connection.close()
