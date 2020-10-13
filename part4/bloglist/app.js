@@ -24,6 +24,8 @@ app.use(cors())
 app.use(express.json())
 app.use(middleware.requestLogger)
 
+app.use(middleware.tokenExtractor)
+
 app.use('/api/login', loginRouter)
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
