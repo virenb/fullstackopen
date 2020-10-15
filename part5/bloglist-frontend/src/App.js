@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
@@ -5,7 +6,7 @@ import loginService from './services/login';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [newBlog, setNewBlog] = useState('');
+  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' });
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState('');
@@ -24,6 +25,28 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
+
+  const addBlog = (event) => {
+    event.preventDefault();
+    const blogObject = {
+      title: newBlog.title,
+      author: newBlog.author,
+      url: newBlog.url,
+    };
+
+    blogService
+      .create(blogObject)
+      .then((returnedBlog) => {
+        setBlogs(blogs.concat(returnedBlog));
+        setNewBlog({});
+      });
+
+      setNewBlog({title: '', author: '', url: '' })
+  };
+
+  const handleBlogChange = (event) => {
+    setNewBlog({ ...newBlog, [event.target.name]: event.target.value });
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -52,7 +75,7 @@ const App = () => {
         <input
           type="text"
           value={username}
-          name="Username"
+          name="username"
           onChange={({ target }) => setUsername(target.value)}
         />
       </div>
@@ -62,11 +85,50 @@ const App = () => {
         <input
           type="password"
           value={password}
-          name="Password"
+          name="password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
       <button type="submit">login</button>
+    </form>
+  );
+
+  const blogForm = () => (
+    <form onSubmit={addBlog}>
+      <label>
+        title:
+        {' '}
+        <input
+          type="text"
+          value={newBlog.title}
+          name="title"
+          onChange={handleBlogChange}
+        />
+      </label>
+      <br />
+      <label>
+        author:
+        {' '}
+        <input
+          type="text"
+          value={newBlog.author}
+          name="author"
+          onChange={handleBlogChange}
+        />
+      </label>
+      <br />
+      <label>
+      url:
+        {' '}
+        <input
+          type="text"
+          value={newBlog.url}
+          name="url"
+          onChange={handleBlogChange}
+        />
+      </label>
+      <br />
+      <button type="submit">create</button>
     </form>
   );
 
@@ -90,10 +152,12 @@ const App = () => {
             <div>
               {user.name}
               {' '}
-              is logged in
+              logged in
               <button type="submit" onClick={handleLogout}>logout</button>
             </div>
             <br />
+            <h2>create new</h2>
+            {blogForm()}
             <div>
               {blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
             </div>
