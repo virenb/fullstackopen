@@ -8,7 +8,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' });
   const [showAll, setShowAll] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [message, setMessage] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -38,10 +38,12 @@ const App = () => {
       .create(blogObject)
       .then((returnedBlog) => {
         setBlogs(blogs.concat(returnedBlog));
-        setNewBlog({});
+        setMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+        setNewBlog({ title: '', author: '', url: '' });
       });
-
-      setNewBlog({title: '', author: '', url: '' })
   };
 
   const handleBlogChange = (event) => {
@@ -60,9 +62,9 @@ const App = () => {
       setUsername('');
       setPassword('');
     } catch (exception) {
-      setErrorMessage('Wrong credentials');
+      setMessage('wrong username or password');
       setTimeout(() => {
-        setErrorMessage(null);
+        setMessage(null);
       }, 5000);
     }
   };
@@ -143,12 +145,42 @@ const App = () => {
         ? (
           <div>
             <h2>log in to application</h2>
+            {message !== null ? (
+              <div style={{
+                color: 'red',
+                background: 'lightgrey',
+                fontSize: '20px',
+                borderStyle: 'solid',
+                borderRadius: '5px',
+                padding: '10px',
+                marginBottom: '10px',
+              }}
+              >
+                {message}
+              </div>
+            )
+              : null}
             {loginForm()}
           </div>
         )
         : (
           <div>
             <h2>blogs</h2>
+            {message !== null ? (
+              <div style={{
+                color: 'green',
+                background: 'lightgrey',
+                fontSize: '20px',
+                borderStyle: 'solid',
+                borderRadius: '5px',
+                padding: '10px',
+                marginBottom: '10px',
+              }}
+              >
+                {message}
+              </div>
+            )
+              : null}            
             <div>
               {user.name}
               {' '}
