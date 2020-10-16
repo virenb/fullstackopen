@@ -1,6 +1,7 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable react/button-has-type */
 import React, { useState, useEffect } from 'react';
 import Blog from './components/Blog';
+import BlogForm from './components/BlogForm';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
@@ -12,6 +13,7 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [blogFormVisible, setBlogFormVisible] = useState(false);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -44,6 +46,8 @@ const App = () => {
         }, 5000);
         setNewBlog({ title: '', author: '', url: '' });
       });
+
+    setBlogFormVisible(false);
   };
 
   const handleBlogChange = (event) => {
@@ -72,7 +76,7 @@ const App = () => {
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
-      username
+        username
         {' '}
         <input
           type="text"
@@ -82,7 +86,7 @@ const App = () => {
         />
       </div>
       <div>
-      password
+        password
         {' '}
         <input
           type="password"
@@ -95,49 +99,13 @@ const App = () => {
     </form>
   );
 
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
-      <label>
-        title:
-        {' '}
-        <input
-          type="text"
-          value={newBlog.title}
-          name="title"
-          onChange={handleBlogChange}
-        />
-      </label>
-      <br />
-      <label>
-        author:
-        {' '}
-        <input
-          type="text"
-          value={newBlog.author}
-          name="author"
-          onChange={handleBlogChange}
-        />
-      </label>
-      <br />
-      <label>
-      url:
-        {' '}
-        <input
-          type="text"
-          value={newBlog.url}
-          name="url"
-          onChange={handleBlogChange}
-        />
-      </label>
-      <br />
-      <button type="submit">create</button>
-    </form>
-  );
-
   const handleLogout = () => {
     window.localStorage.clear();
     setUser(null);
   };
+
+  const hideWhenVisible = { display: blogFormVisible ? 'none' : '' };
+  const showWhenVisible = { display: blogFormVisible ? '' : 'none' };
 
   return (
     <div>
@@ -180,16 +148,28 @@ const App = () => {
                 {message}
               </div>
             )
-              : null}            
+              : null}
             <div>
               {user.name}
               {' '}
               logged in
+              {' '}
               <button type="submit" onClick={handleLogout}>logout</button>
             </div>
             <br />
-            <h2>create new</h2>
-            {blogForm()}
+            <div style={hideWhenVisible}>
+              <button onClick={() => setBlogFormVisible(true)}>new blog</button>
+            </div>
+            <div style={showWhenVisible}>
+              <BlogForm
+                addBlog={addBlog}
+                newBlog={newBlog}
+                handleBlogChange={handleBlogChange}
+              />
+
+              <button onClick={() => setBlogFormVisible(false)}>cancel</button>
+            </div>
+            <br />
             <div>
               {blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
             </div>
