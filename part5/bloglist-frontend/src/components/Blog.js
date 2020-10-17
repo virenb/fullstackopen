@@ -1,3 +1,9 @@
+/*
+Make a test which checks that the component displaying a blog renders the blog's title and author, 
+but does not render its url or number of likes by default
+Add CSS-classes to the component to help the testing as necessary.
+*/
+
 import React, { useState } from 'react';
 
 const Blog = ({
