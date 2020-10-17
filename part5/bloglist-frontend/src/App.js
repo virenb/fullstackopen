@@ -42,6 +42,14 @@ const App = () => {
       });
   };
 
+  const addLike = (id, blogObject) => {
+    blogService
+      .update(id, blogObject)
+      .then((returnedBlog) => {
+        setBlogs(blogs.map((blog) => (blog.id !== returnedBlog.id ? blog : returnedBlog)));
+      });
+  };
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -106,7 +114,7 @@ const App = () => {
           </div>
         )}
       {user !== null
-        ? blogs.map((blog) => <Blog key={blog.id} blog={blog} user={user} />)
+        ? blogs.map((blog) => <Blog key={blog.id} blog={blog} user={user} addLike={addLike} />)
         : null}
     </div>
   );
