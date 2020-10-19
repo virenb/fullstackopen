@@ -70,9 +70,12 @@ const App = () => {
     } catch (exception) {
       setErrorOrSuccess('error');
       setNotificationMessage('wrong username or password');
+      setUsername('');
+      setPassword('');
       setTimeout(() => {
         setNotificationMessage(null);
         setErrorOrSuccess(null);
+   
       }, 5000);
     }
   };

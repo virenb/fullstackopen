@@ -18,7 +18,7 @@ describe('Blog app', function() {
 })
 
 
-describe('Login',function() {
+describe('Login and logout',function() {
   it('user can log in successfully with correct credentials', function() {
     cy.get('#username').type('timapple')
     cy.get('#password').type('hello')
@@ -32,5 +32,26 @@ describe('Login',function() {
     cy.get('#username').type('chocolatemilk')
     cy.get('#password').type('hello123')
     cy.get('#loginFormButton').click()
+    cy.get('#cancelLoginButton').click()
+  })
+ 
+})
+
+describe('When logged in', function() {
+  it('user can log in successfully with correct credentials', function() {
+    //cy.wait(5000)
+    cy.get('#loginButton').click()
+    cy.get('#username').type('timapple')
+    cy.get('#password').type('hello')
+    cy.get('#loginFormButton').click()
+    
+  })
+
+  it('a blog can be created', function() {
+    cy.get('#newBlogButton').click()
+    cy.get('#blogFormTitle').type('Cypress Testing is awesome')
+    cy.get('#blogFormAuthor').type('bob123')
+    cy.get('#blogFormUrl').type('cypress.io')
+    cy.get('#submitNewBlog').click()
   })
 })
