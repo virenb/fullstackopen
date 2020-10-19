@@ -54,4 +54,9 @@ describe('When logged in', function() {
     cy.get('#blogFormUrl').type('cypress.io')
     cy.get('#submitNewBlog').click()
   })
+
+  it('a blog can be liked', function() {
+    cy.get('#viewMoreButton').click()
+    cy.get('#likeBlogButton').click()
+  })
 })

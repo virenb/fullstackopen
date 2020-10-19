@@ -40,6 +40,7 @@ const Blog = ({
             {' '}
             <button
               type="button"
+              id="likeBlogButton"
               onClick={() => addLike(blog.id, { ...blog, likes: blog.likes + 1 })}
             >
               like
@@ -57,7 +58,7 @@ const Blog = ({
             : null}
 
         </>
-      ) : <button type="button" onClick={() => displayMore()}>view</button>}
+      ) : <button type="button" id="viewMoreButton" onClick={() => displayMore()}>view</button>}
 
     </div>
   );
