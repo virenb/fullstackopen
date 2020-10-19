@@ -1,5 +1,5 @@
 describe('Blog app', function() {
-  beforeEach(function() {
+  before(function() {
     cy.request('POST', 'http://localhost:3001/api/testing/reset')
     const user = {
       name: 'Tim Apple',
@@ -16,7 +16,6 @@ describe('Blog app', function() {
     cy.get('#loginButton').click()
   })
 })
-
 
 describe('Login and logout',function() {
   it('user can log in successfully with correct credentials', function() {
@@ -44,19 +43,35 @@ describe('When logged in', function() {
     cy.get('#username').type('timapple')
     cy.get('#password').type('hello')
     cy.get('#loginFormButton').click()
-    
   })
 
   it('a blog can be created', function() {
     cy.get('#newBlogButton').click()
     cy.get('#blogFormTitle').type('Cypress Testing is awesome')
-    cy.get('#blogFormAuthor').type('bob123')
+    cy.get('#blogFormAuthor').type('timapple')
     cy.get('#blogFormUrl').type('cypress.io')
+    cy.get('#submitNewBlog').click()
+  })
+
+  it('a blog can be created', function() {
+    cy.get('#blogFormTitle').type('Chocolatemilk is the best')
+    cy.get('#blogFormAuthor').type('timapple')
+    cy.get('#blogFormUrl').type('cypress.io/213')
     cy.get('#submitNewBlog').click()
   })
 
   it('a blog can be liked', function() {
     cy.get('#viewMoreButton').click()
     cy.get('#likeBlogButton').click()
+    cy.get('#logoutButton').click()
+  })
+
+  it('delete a blog', function() {
+    cy.get('#loginButton').click()
+    cy.get('#username').type('timapple')
+    cy.get('#password').type('hello')
+    cy.get('#loginFormButton').click()
+    cy.get('#viewMoreButton').click()
+    cy.get('#removeBlogButton').click()
   })
 })

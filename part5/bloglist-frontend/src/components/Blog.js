@@ -47,15 +47,17 @@ const Blog = ({
             </button>
           </div>
           <div>{blog.user.name}</div>
-          {user.username === blog.user.username ? (
+          <div>{blog.user.username !== null ? (
             <button
               type="button"
+              id="removeBlogButton"
               onClick={() => confirmRemove(blog)}
             >
               remove
             </button>
-          )
+            )
             : null}
+          </div>
 
         </>
       ) : <button type="button" id="viewMoreButton" onClick={() => displayMore()}>view</button>}
