@@ -113,7 +113,7 @@ const App = () => {
             {' '}
             logged in
             {' '}
-            <button type="submit" onClick={handleLogout}>logout</button>
+            <button type="submit" id="logoutButton" onClick={handleLogout}>logout</button>
 
             {' '}
             {blogForm()}
