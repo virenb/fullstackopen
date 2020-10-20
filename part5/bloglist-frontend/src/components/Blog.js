@@ -24,7 +24,7 @@ const Blog = ({
   };
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blogBody">
       {blog.title}
       {' '}
       {blog.author}
@@ -40,7 +40,7 @@ const Blog = ({
             {' '}
             <button
               type="button"
-              id="likeBlogButton"
+              class="likeBlogButton"
               onClick={() => addLike(blog.id, { ...blog, likes: blog.likes + 1 })}
             >
               like
@@ -50,7 +50,7 @@ const Blog = ({
           <div>{blog.user.username !== null ? (
             <button
               type="button"
-              id="removeBlogButton"
+              class="removeBlogButton"
               onClick={() => confirmRemove(blog)}
             >
               remove
@@ -60,7 +60,7 @@ const Blog = ({
           </div>
 
         </>
-      ) : <button type="button" id="viewMoreButton" onClick={() => displayMore()}>view</button>}
+      ) : <button type="button" class="viewMoreButton" name="view" onClick={() => displayMore()}>view</button>}
 
     </div>
   );

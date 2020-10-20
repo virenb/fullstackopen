@@ -51,6 +51,8 @@ describe('When logged in', function() {
     cy.get('#blogFormAuthor').type('timapple')
     cy.get('#blogFormUrl').type('cypress.io')
     cy.get('#submitNewBlog').click()
+    cy.get('.viewMoreButton').click()
+    cy.get('.likeBlogButton').click()
   })
 
   it('a blog can be created', function() {
@@ -60,18 +62,32 @@ describe('When logged in', function() {
     cy.get('#submitNewBlog').click()
   })
 
+  it('a blog can be created', function() {
+    cy.get('#blogFormTitle').type('Test title')
+    cy.get('#blogFormAuthor').type('Tester')
+    cy.get('#blogFormUrl').type('test.io')
+    cy.get('#submitNewBlog').click()
+  })
+
+
   it('a blog can be liked', function() {
-    cy.get('#viewMoreButton').click()
-    cy.get('#likeBlogButton').click()
-    cy.get('#logoutButton').click()
+    cy.get('.viewMoreButton').click({ multiple: true })
+    cy.get('.likeBlogButton').click({ multiple: true })
+    cy.get('.likeBlogButton').click({ multiple: true })
+    cy.get('.likeBlogButton').click({ multiple: true })
+    cy.get('.viewMoreButton').last()
+    cy.contains('view').click()
   })
 
   it('delete a blog', function() {
-    cy.get('#loginButton').click()
-    cy.get('#username').type('timapple')
-    cy.get('#password').type('hello')
-    cy.get('#loginFormButton').click()
-    cy.get('#viewMoreButton').click()
-    cy.get('#removeBlogButton').click()
+    cy.get('.removeBlogButton').first()
+    cy.contains('remove').click()
+  })
+
+  it('sorts by ascending order', function() {
+    cy.get('.likeBlogButton').last().click()
+    cy.get('.likeBlogButton').last().click()
+    cy.get('.likeBlogButton').last().click()
+    cy.get('.likeBlogButton').last().click()
   })
 })
