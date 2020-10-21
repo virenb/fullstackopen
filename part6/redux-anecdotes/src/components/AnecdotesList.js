@@ -29,7 +29,6 @@ const AnecdotesList = () => {
             <Anecdote
               key={anecdote.id}
               anecdote={anecdote}
-              // 6.6 exercise - action creators
               handleClick={() => dispatch(addVote(anecdote.id))}
             />
           )}
