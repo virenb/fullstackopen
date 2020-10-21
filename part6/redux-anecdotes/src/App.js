@@ -1,5 +1,5 @@
 import React from 'react'
-import NewAnecdote from './components/NewAnecdote'
+import AnecdoteForm from './components/AnecdoteForm'
 import Anecdotes from './components/Anecdotes'
 
 const App = () => {
@@ -7,7 +7,7 @@ const App = () => {
   return (
     <div>
       <Anecdotes />
-      <NewAnecdote />
+      <AnecdoteForm />
     </div>
   )
 }
