@@ -9,6 +9,7 @@ const NewAnecdote = (props) => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
+    // 6.6 exercise - action creators
     dispatch(createAnecdote(content))
   }
 
