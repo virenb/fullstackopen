@@ -20,27 +20,48 @@ const Anecdote = ({ anecdote, handleClick }) => {
 const AnecdotesList = () => {
   const dispatch = useDispatch()
   const anecdotes = useSelector(state => state.anecdotes)
+  const filter = useSelector(state => state.filter)
 
   return (
     <>
         <div>
-          {anecdotes
-          .sort((a, b) => (a.votes > b.votes ? -1 : 1))
-          .map(anecdote =>
-            <Anecdote
-              key={anecdote.id}
-              anecdote={anecdote}
-              handleClick={() => 
-              {
-                dispatch(addVote(anecdote.id))
-                dispatch(setNotification(`you voted for ${anecdote.content}`))
-                setTimeout(() => {
-                  dispatch(removeNotification(''))
-                }, 2000)
-              }
-              }
-            />
-          )}
+          {filter === '' ? anecdotes
+            .sort((a, b) => (a.votes > b.votes ? -1 : 1))
+            .map(anecdote =>
+              <Anecdote
+                key={anecdote.id}
+                anecdote={anecdote}
+                handleClick={() => 
+                {
+                  dispatch(addVote(anecdote.id))
+                  dispatch(setNotification(`you voted for ${anecdote.content}`))
+                  setTimeout(() => {
+                    dispatch(removeNotification(''))
+                  }, 2000)
+                }
+                }
+              />
+            )
+            :
+            anecdotes
+            .filter(anecdote => {return anecdote.content.toLowerCase().includes(filter)})
+            .sort((a, b) => (a.votes > b.votes ? -1 : 1))
+            .map(anecdote =>
+              <Anecdote
+                key={anecdote.id}
+                anecdote={anecdote}
+                handleClick={() => 
+                {
+                  dispatch(addVote(anecdote.id))
+                  dispatch(setNotification(`you voted for ${anecdote.content}`))
+                  setTimeout(() => {
+                    dispatch(removeNotification(''))
+                  }, 2000)
+                }
+                }
+              />
+            )
+          }
         </div>
     </>
   )
