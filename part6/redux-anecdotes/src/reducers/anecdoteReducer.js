@@ -7,19 +7,20 @@
 //   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 // ]
 
-import anecdoteService from '../services/anecdotes'
 
-const getId = () => (100000 * Math.random()).toFixed(0)
+// const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
+// const asObject = (anecdote) => {
+//   return {
+//     content: anecdote,
+//     id: getId(),
+//     votes: 0
+//   }
+// }
 
 // const initialState = anecdotesAtStart.map(asObject)
+
+import anecdoteService from '../services/anecdotes'
 
 const anecdoteReducer = (state = [], action) => {
   console.log('state now: ', state)
@@ -36,6 +37,7 @@ const anecdoteReducer = (state = [], action) => {
         ...anecdoteToVote,
         votes: anecdoteToVote.votes + 1
       }
+      anecdoteService.updateVotes(id, changedAnecdote)
       return state.map(anecdote => 
         anecdote.id !== id ? anecdote : changedAnecdote
       )
