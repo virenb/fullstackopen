@@ -16,7 +16,15 @@ const CreateNew = (props) => {
       info: info.value,
       votes: 0
     })
+    handleReset()
     history.push('/')
+  }
+
+  const handleReset = () => {
+    // history.push('/create')
+    content.reset()
+    author.reset()
+    info.reset()
   }
 
   return (
@@ -47,7 +55,12 @@ const CreateNew = (props) => {
             onChange={info.onChange}
           />
         </div>
-        <button>create</button>
+        <button type='submit'>create</button>
+        <button type='button'
+          onClick={handleReset}
+        >
+          reset
+        </button>
       </form>
     </div>
   )
